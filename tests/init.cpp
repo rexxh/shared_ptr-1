@@ -23,6 +23,13 @@ SCENARIO("copy constructor", "[copy c]"){
   REQUIRE(b.use_count() == 2);
 }
 
+SCENARIO("copy operator", "[copy o]"){
+  shared_ptr<int> a(new int(5));
+  shared_ptr<int> b = a;
+  REQUIRE(*b == 5);
+  REQUIRE(b.use_count() == 2);
+}
+
 SCENARIO("move constructor", "[move c]"){
   shared_ptr<int> a(new int(5));
   shared_ptr<int> b(std::move(a));
@@ -30,6 +37,15 @@ SCENARIO("move constructor", "[move c]"){
   REQUIRE(a.get() == nullptr);
   REQUIRE(b.use_count() == 1);
   REQUIRE(a.use_count() == 0);  
+}
+
+SCENARIO("move operator", "[move o]"){
+  shared_ptr<int> a(new int(5));
+  shared_ptr<int> b = std::move(a);
+  REQUIRE(*b == 5);
+  REQUIRE(a.get() == nullptr);
+  REQUIRE(b.use_count() == 1);
+  REQUIRE(a.use_count() == 0);
 }
 
 SCENARIO("reset", "[reset]"){
