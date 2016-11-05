@@ -113,5 +113,5 @@ auto shared_ptr<T>::operator->() -> T *
 
 template<class T>
 shared_ptr<T>::operator bool(){
-	return ptr_ == nullptr;
+	return ptr_ != nullptr;
 }
