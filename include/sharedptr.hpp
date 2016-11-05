@@ -1,6 +1,7 @@
 #pragma once
 #include <cstddef>
 #include <utility>
+#include <stdexcept>
 using std::size_t;
 
 template<class T>
@@ -102,12 +103,14 @@ auto shared_ptr<T>::unique() -> bool
 template<class T>
 auto shared_ptr<T>::operator*() -> T &
 {
+	if(ptr_ == nullptr) throw std::logic_error("pointer is nullptr");
 	return *ptr_;
 }
 
 template<class T>
 auto shared_ptr<T>::operator->() -> T *
 {
+	if(ptr_ == nullptr) throw std::logic_error("pointer is nullptr");
 	return ptr_;
 }
 
