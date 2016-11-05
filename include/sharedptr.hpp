@@ -96,7 +96,7 @@ auto shared_ptr<T>::use_count() -> size_t{
 template<class T>
 auto shared_ptr<T>::unique() -> bool
 {
-	return count_ == 1;
+	return (*count_ == 1);
 }
 
 template<class T>
