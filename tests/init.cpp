@@ -29,7 +29,7 @@ SCENARIO("move constructor", "[move c]"){
   REQUIRE(*b == 5);
   REQUIRE(a.get() == nullptr);
   REQUIRE(b.use_count() == 1);
-  REQUIE(a.use_count() == 0);  
+  REQUIRE(a.use_count() == 0);  
 }
 
 SCENARIO("reset", "[reset]"){
