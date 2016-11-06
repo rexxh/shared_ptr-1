@@ -36,7 +36,7 @@ shared_ptr<T>::shared_ptr(T * ptr) : ptr_(ptr){
 template<class T>
 shared_ptr<T>::shared_ptr(const shared_ptr & other) : ptr_(other.ptr_){
 	count_ = other.count_;
-	++*count_;
+	if(use_count != 0) ++*count_;
 }
 
 template<class T>
@@ -97,7 +97,7 @@ auto shared_ptr<T>::use_count() -> size_t{
 template<class T>
 auto shared_ptr<T>::unique() -> bool
 {
-	return (*count_ == 1);
+	return (use_count() == 1);
 }
 
 template<class T>
