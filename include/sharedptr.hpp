@@ -43,7 +43,7 @@ template<class T>
 auto shared_ptr<T>::operator=(shared_ptr const &other) -> shared_ptr & //strong
 {
 	if (this != &other) {
-		(shared_ptr<T>(other)).swap(this);
+		(shared_ptr<T>(other)).swap(*this);
 	}
 	return *this;
 }
