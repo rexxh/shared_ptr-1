@@ -7,21 +7,21 @@ using std::size_t;
 template<class T>
 class shared_ptr {
 public:
-	explicit shared_ptr(T * ptr = nullptr);
-	
-	shared_ptr(shared_ptr const &);
-	auto operator =(shared_ptr const &)->shared_ptr &;
-	shared_ptr(shared_ptr &&);
-	auto operator =(shared_ptr &&)->shared_ptr&;
-	~shared_ptr();
-	auto swap(shared_ptr &)->void;
-	auto reset() -> void;
-	auto get()->T *;
-	auto use_count()->size_t;
-	auto unique() -> bool;
-	auto operator*()->T &;
-	auto operator->()->T *;
-	operator bool();
+	explicit shared_ptr(T * ptr = nullptr); //strong
+
+	shared_ptr(shared_ptr const &);//strong
+	auto operator =(shared_ptr const &) -> shared_ptr &; //strong
+	shared_ptr(shared_ptr &&);//noexcept
+	auto operator =(shared_ptr &&) -> shared_ptr&; //noexcept
+	~shared_ptr(); //noexcept
+	auto swap(shared_ptr &) -> void; //noexcept
+	auto reset() -> void;//noexcept
+	auto get() const -> T *; //noexcept
+	auto use_count() const -> size_t; //noexcept
+	auto unique() const -> bool; // noexcept
+	auto operator*() const -> T &; //strong
+	auto operator->() const -> T *; //strong
+	operator bool() const; //noexcept
 
 private:
 	T * ptr_;
@@ -29,18 +29,18 @@ private:
 };
 
 template<class T>
-shared_ptr<T>::shared_ptr(T * ptr) : ptr_(ptr){
+shared_ptr<T>::shared_ptr(T * ptr) : ptr_(ptr) {//strong
 	count_ = (ptr_ == nullptr) ? nullptr : new size_t(1);
 }
 
 template<class T>
-shared_ptr<T>::shared_ptr(const shared_ptr & other) : ptr_(other.ptr_){
+shared_ptr<T>::shared_ptr(const shared_ptr & other) : ptr_(other.ptr_) {//strong
 	count_ = other.count_;
-	if(use_count != 0) ++*count_;
+	if (use_count != 0)++*count_;
 }
 
 template<class T>
-auto shared_ptr<T>::operator=(shared_ptr const &other) -> shared_ptr &
+auto shared_ptr<T>::operator=(shared_ptr const &other) -> shared_ptr & //strong
 {
 	if (this != &other) {
 		(shared_ptr<T>(other)).swap(this);
@@ -49,12 +49,12 @@ auto shared_ptr<T>::operator=(shared_ptr const &other) -> shared_ptr &
 }
 
 template<class T>
-shared_ptr<T>::shared_ptr(shared_ptr && other) : ptr_(nullptr), count_(nullptr) {
+shared_ptr<T>::shared_ptr(shared_ptr && other) : ptr_(nullptr), count_(nullptr) {//noexcept
 	swap(other);
 }
 
 template<class T>
-auto shared_ptr<T>::operator=(shared_ptr && other) -> shared_ptr &{
+auto shared_ptr<T>::operator=(shared_ptr && other) -> shared_ptr & {//noexcept
 	if (this != &other) {
 		swap(other);
 	}
@@ -62,7 +62,7 @@ auto shared_ptr<T>::operator=(shared_ptr && other) -> shared_ptr &{
 }
 
 template<class T>
-shared_ptr<T>::~shared_ptr() {
+shared_ptr<T>::~shared_ptr() { //noexcept
 	if (count_ == nullptr || --*count_ == 0) {
 		delete ptr_;
 		delete count_;
@@ -70,51 +70,55 @@ shared_ptr<T>::~shared_ptr() {
 }
 
 template<class T>
-auto shared_ptr<T>::swap(shared_ptr & other) -> void
+auto shared_ptr<T>::swap(shared_ptr & other) -> void //noexcept
 {
 	std::swap(ptr_, other.ptr_);
 	std::swap(count_, other.count_);
 }
 
 template<class T>
-auto shared_ptr<T>::reset() -> void{
+auto shared_ptr<T>::reset() -> void { //noexcept
 	if (count_ != nullptr) {
+		if (--*count == 0) {
+			delete ptr_;
+			delete count_;
+		}
 		ptr_ = nullptr;
 		count_ = nullptr;
 	}
 }
 
 template<class T>
-auto shared_ptr<T>::get() -> T *{
+auto shared_ptr<T>::get() const -> T * { //noexcept
 	return ptr_;
 }
 
 template<class T>
-auto shared_ptr<T>::use_count() -> size_t{
-	return count_ == nullptr? 0 : *count_;
+auto shared_ptr<T>::use_count() const -> size_t { //noexcept
+	return count_ == nullptr ? 0 : *count_;
 }
 
 template<class T>
-auto shared_ptr<T>::unique() -> bool
+auto shared_ptr<T>::unique() const -> bool //noexcept
 {
 	return (use_count() == 1);
 }
 
 template<class T>
-auto shared_ptr<T>::operator*() -> T &
+auto shared_ptr<T>::operator*() const -> T & //strong
 {
-	if(ptr_ == nullptr) throw std::logic_error("pointer is nullptr");
+	if (ptr_ == nullptr) throw std::logic_error("pointer is nullptr");
 	return *ptr_;
 }
 
 template<class T>
-auto shared_ptr<T>::operator->() -> T *
+auto shared_ptr<T>::operator->() const -> T * //strong
 {
-	if(ptr_ == nullptr) throw std::logic_error("pointer is nullptr");
+	if (ptr_ == nullptr) throw std::logic_error("pointer is nullptr");
 	return ptr_;
 }
 
 template<class T>
-shared_ptr<T>::operator bool(){
+shared_ptr<T>::operator bool() const { //noexcept
 	return ptr_ != nullptr;
 }
