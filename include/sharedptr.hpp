@@ -36,7 +36,7 @@ shared_ptr<T>::shared_ptr(T * ptr) : ptr_(ptr) {//strong
 template<class T>
 shared_ptr<T>::shared_ptr(const shared_ptr & other) : ptr_(other.ptr_) {//strong
 	count_ = other.count_;
-	if (use_count != 0)++*count_;
+	if (use_count() != 0)++*count_;
 }
 
 template<class T>
