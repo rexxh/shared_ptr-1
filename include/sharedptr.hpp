@@ -79,7 +79,7 @@ auto shared_ptr<T>::swap(shared_ptr & other) -> void //noexcept
 template<class T>
 auto shared_ptr<T>::reset() -> void { //noexcept
 	if (count_ != nullptr) {
-		if (--*count == 0) {
+		if (--*count_ == 0) {
 			delete ptr_;
 			delete count_;
 		}
