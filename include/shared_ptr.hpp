@@ -6,19 +6,19 @@ private:
 	T * ptr_;
 	size_t *counter_;
 public:
-	shared_ptr();
-	shared_ptr(T* obj); 
-	shared_ptr(const shared_ptr &);
-	shared_ptr(shared_ptr &&);
-	auto operator = (const shared_ptr&)->shared_ptr&;
-	auto operator = (shared_ptr&&)->shared_ptr&;
-	auto operator * () const->T&;
-	auto operator -> () const->T*;
-	auto get() const->T*;	
-	auto count()-> const size_t;
-	auto swap(shared_ptr&) -> void;
-	auto reset() -> void;
-	~shared_ptr();
+	shared_ptr(); /*noexcept*/
+	shared_ptr(T* obj); /*strong*/
+	shared_ptr(const shared_ptr &); /*noexcept*/
+	shared_ptr(shared_ptr &&); /*noexcept*/
+	auto operator = (const shared_ptr&)->shared_ptr&; /*noexcept*/
+	auto operator = (shared_ptr&&)->shared_ptr&; /*noexcept*/
+	auto operator * () const->T&; /*strong*/
+	auto operator -> () const->T*; /*strong*/
+	auto get() const->T*; /*noexcept*/
+	auto count()-> const size_t; /*noexcept*/
+	auto swap(shared_ptr&) -> void; /*noexcept*/
+	auto reset() -> void; /*noexcept*/
+	~shared_ptr(); /*noexcept*/
 };
 
 template <class T>
@@ -60,7 +60,7 @@ auto shared_ptr<T>::operator = (shared_ptr&& other) ->shared_ptr& {
 
 template <class T>
 auto shared_ptr<T>::operator * () const ->T& {
-	if (ptr_ != nullptr) return ptr_;
+	if (ptr_ != nullptr) return *ptr_;
 	else throw ("nullptr");
 }
 
