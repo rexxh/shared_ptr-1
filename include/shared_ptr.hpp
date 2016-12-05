@@ -52,7 +52,8 @@ auto shared_ptr<T>::operator = (const shared_ptr& other) ->shared_ptr& {
 template <class T>
 auto shared_ptr<T>::operator = (shared_ptr&& other) ->shared_ptr& {
 	if (this != &other)
-	{if ( --(*counter_) !=0) {
+	{if ( (*counter_-1) !=0) {
+--(*counter_);
 ptr_ = other.ptr_;
 counter_ = other.counter_;
 other.ptr_ = nullptr;
