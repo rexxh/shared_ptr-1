@@ -60,7 +60,11 @@ counter_ = other.counter_;
 other.ptr_ = nullptr;
 other.counter_ = nullptr;
 		}
-	 else this->swap(other);
+	 else 
+		 {
+shared_ptr<T>tmp();
+this->swap(tmp);
+this->swap(other);
 }
 	return *this;
 }
