@@ -32,8 +32,7 @@ shared_ptr<T>::shared_ptr(const shared_ptr & other) : ptr_(other.ptr_), counter_
 	{
 		*counter_+=1;
 	}
-}
-
+} 
 template <class T>
 shared_ptr<T>::shared_ptr(shared_ptr && other) : ptr_(other.ptr_), counter_(other.counter_) {
 	other.ptr_ = nullptr;
