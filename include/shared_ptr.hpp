@@ -53,7 +53,10 @@ template <class T>
 auto shared_ptr<T>::operator = (shared_ptr&& other) ->shared_ptr& {
 	if (this != &other)
 	{
-		this->swap(other);
+ptr_ = other.ptr_;
+counter_ = other.counter_;
+other.ptr_ = nullptr;
+other.counter_ = nullptr;
 	}
 	return *this;
 }
