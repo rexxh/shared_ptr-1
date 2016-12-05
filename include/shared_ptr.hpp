@@ -62,7 +62,7 @@ other.counter_ = nullptr;
 		}
 	 else 
 		 {
-shared_ptr<T>tmp();
+shared_ptr<T> tmp();
 this->swap(tmp);
 this->swap(other);
 		 }
