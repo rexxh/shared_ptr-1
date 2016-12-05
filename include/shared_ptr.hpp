@@ -52,12 +52,13 @@ auto shared_ptr<T>::operator = (const shared_ptr& other) ->shared_ptr& {
 template <class T>
 auto shared_ptr<T>::operator = (shared_ptr&& other) ->shared_ptr& {
 	if (this != &other)
-	{
+	{if ( --(*counter_) !=0) {
 ptr_ = other.ptr_;
 counter_ = other.counter_;
 other.ptr_ = nullptr;
-other.counter_ = nullptr;
-	}
+other.counter_ = nullptr;}
+	 else std::swap(this, other);
+}
 	return *this;
 }
 
