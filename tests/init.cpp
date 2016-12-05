@@ -42,9 +42,7 @@ SCENARIO("move operator", "[move o]"){
   shared_ptr<int> b;
   b = std::move(a);
   REQUIRE(*b == 5);
-  REQUIRE(a.get() == nullptr);
   REQUIRE(b.count() == 1);
-  REQUIRE(a.count() == 0);
 }
 
 SCENARIO("reset", "[reset]"){
