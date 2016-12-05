@@ -1,4 +1,4 @@
-#include "sharedptr.hpp"
+#include "shared_ptr.hpp"
 #include <catch.hpp>
 
 SCENARIO("Init", "[Init]"){
