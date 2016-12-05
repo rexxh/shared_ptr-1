@@ -65,6 +65,7 @@ other.counter_ = nullptr;
 shared_ptr<T>tmp();
 this->swap(tmp);
 this->swap(other);
+		 }
 }
 	return *this;
 } 
