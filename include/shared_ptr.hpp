@@ -67,8 +67,7 @@ this->swap(tmp);
 this->swap(other);
 }
 	return *this;
-}
-
+} 
 template <class T>
 auto shared_ptr<T>::operator * () const ->T& {
 	if (ptr_ != nullptr) return *ptr_;
