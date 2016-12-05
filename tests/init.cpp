@@ -39,10 +39,12 @@ SCENARIO("move constructor", "[move c]"){
 
 SCENARIO("move operator", "[move o]"){
   shared_ptr<int> a(new int(5));
-  shared_ptr<int> b;
+  shared_ptr<int> b(new int(4));
   b = std::move(a);
   REQUIRE(*b == 5);
   REQUIRE(b.count() == 1);
+  REQUIRE(a.get() == nullptr);
+  REQUIRE(a.count() == 0);
 }
 
 SCENARIO("reset", "[reset]"){
