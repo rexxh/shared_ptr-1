@@ -57,7 +57,7 @@ ptr_ = other.ptr_;
 counter_ = other.counter_;
 other.ptr_ = nullptr;
 other.counter_ = nullptr;}
-	 else std::swap(this, other);
+	 else this->swap(other);
 }
 	return *this;
 }
