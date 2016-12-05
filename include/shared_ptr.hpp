@@ -17,6 +17,7 @@ public:
 	auto get() const->T*;	
 	auto count()-> const size_t;
 	auto swap(shared_ptr&) -> void;
+	auto reset() -> void;
 	~shared_ptr();
 };
 
@@ -85,6 +86,18 @@ template <class T>
 auto shared_ptr<T>::swap(shared_ptr & other) -> void{
 	std::swap(ptr_, other.ptr_);
 	std::swap(counter_, other.counter_);
+}
+
+template <typename T>
+auto shared_ptr<T>::reset() -> void
+{
+	if (ptr_ != nullptr && counter_ != nullptr && --(*counter_) == 0)
+	{
+		delete ptr_;
+		delete counter_;
+	}
+	ptr_ = nullptr;
+	counter_ = nullptr;
 }
 
 template <class T>
